@@ -41,6 +41,6 @@
     <text x="187" y="22" text-anchor="middle" font-family="sans-serif" font-size="14" font-weight="bold" fill="#fecdd3">NUVIO</text>
 
     <rect x="255" width="150" height="34" rx="17" fill="#10b981" opacity="0.25" stroke="#10b981" stroke-width="1.5" />
-    <text x="330" y="22" text-anchor="middle" font-family="sans-serif" font-size="14" font-weight="bold" fill="#a7f3d0">12 مصدراً عربياً</text>
+    <text x="330" y="22" text-anchor="middle" font-family="sans-serif" font-size="14" font-weight="bold" fill="#a7f3d0">21 مصدراً عربياً</text>
   </g>
 </svg>
