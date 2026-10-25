@@ -1,0 +1,482 @@
+{
+  "id": "org.zxr.stream.arabic",
+  "name": "ZXR Stream (إضافات عربية لستريميو + نوفيو)",
+  "version": "1.0.0",
+  "description": "المستودع العربي الشامل لإضافات المشاهدة لتطبيقي Stremio و Nuvio — أفلام، مسلسلات، أنمي، وكرتون من أشهر 21 موقعاً عربياً",
+  "author": "devilmancrybabyx",
+  "logo": "https://raw.githubusercontent.com/devilmancrybabyx/ZXR-stream/main/public/images/logo.svg",
+  "background": "https://raw.githubusercontent.com/devilmancrybabyx/ZXR-stream/main/public/images/banner.svg",
+  "resources": [
+    "stream",
+    "catalog"
+  ],
+  "types": [
+    "movie",
+    "series",
+    "anime"
+  ],
+  "idPrefixes": [
+    "tt",
+    "kitsu:"
+  ],
+  "catalogs": [
+    {
+      "type": "movie",
+      "id": "zxr_movies",
+      "name": "🎬 أفلام عربية ومترجمة (ZXR)"
+    },
+    {
+      "type": "series",
+      "id": "zxr_series",
+      "name": "📺 مسلسلات عربية وأجنبية (ZXR)"
+    },
+    {
+      "type": "anime",
+      "id": "zxr_anime",
+      "name": "🎌 أنمي وكرتون (ZXR)"
+    }
+  ],
+  "scrapers": [
+    {
+      "id": "egydead",
+      "name": "EgyDead (إيجي ديد)",
+      "description": "أحدث الأفلام والمسلسلات والأنمي المترجم والمدبلج",
+      "version": "1.0.0",
+      "author": "devilmancrybabyx",
+      "supportedTypes": [
+        "movie",
+        "tv"
+      ],
+      "filename": "providers/egydead.js",
+      "enabled": true,
+      "formats": [
+        "mp4",
+        "m3u8"
+      ],
+      "logo": "https://raw.githubusercontent.com/devilmancrybabyx/ZXR-stream/main/public/images/EgyDead.png",
+      "contentLanguage": [
+        "ar"
+      ]
+    },
+    {
+      "id": "faselhd",
+      "name": "FaselHD (فاصل إعلاني)",
+      "description": "مشاهدة وتحميل الأفلام والمسلسلات الأجنبية والآسيوية",
+      "version": "1.0.0",
+      "author": "devilmancrybabyx",
+      "supportedTypes": [
+        "movie",
+        "tv"
+      ],
+      "filename": "providers/faselhd.js",
+      "enabled": true,
+      "formats": [
+        "mp4",
+        "m3u8"
+      ],
+      "logo": "https://raw.githubusercontent.com/devilmancrybabyx/ZXR-stream/main/public/images/TopCinema.png",
+      "contentLanguage": [
+        "ar"
+      ]
+    },
+    {
+      "id": "witanime",
+      "name": "WitAnime (ويت أنمي)",
+      "description": "المصدر العربي الأول لمسلسلات وأفلام الأنمي الياباني",
+      "version": "1.0.0",
+      "author": "devilmancrybabyx",
+      "supportedTypes": [
+        "movie",
+        "tv"
+      ],
+      "filename": "providers/witanime.js",
+      "enabled": true,
+      "formats": [
+        "mp4",
+        "m3u8"
+      ],
+      "logo": "https://raw.githubusercontent.com/devilmancrybabyx/ZXR-stream/main/public/images/Anime4Up.png",
+      "contentLanguage": [
+        "ar"
+      ]
+    },
+    {
+      "id": "anime4up",
+      "name": "Anime4Up (أنمي فور اب)",
+      "description": "مشاهدة وتحميل مسلسلات وأفلام الأنمي والكرتون",
+      "version": "1.0.0",
+      "author": "devilmancrybabyx",
+      "supportedTypes": [
+        "movie",
+        "tv"
+      ],
+      "filename": "providers/anime4up.js",
+      "enabled": true,
+      "formats": [
+        "mp4",
+        "m3u8"
+      ],
+      "logo": "https://raw.githubusercontent.com/devilmancrybabyx/ZXR-stream/main/public/images/Anime4Up.png",
+      "contentLanguage": [
+        "ar"
+      ]
+    },
+    {
+      "id": "shahid4u",
+      "name": "Shahid4u (شاهد فور يو)",
+      "description": "مسلسلات عربية وتركية وأفلام عالمية بجودة عالية",
+      "version": "1.0.0",
+      "author": "devilmancrybabyx",
+      "supportedTypes": [
+        "movie",
+        "tv"
+      ],
+      "filename": "providers/shahid4u.js",
+      "enabled": true,
+      "formats": [
+        "mp4",
+        "m3u8"
+      ],
+      "logo": "https://raw.githubusercontent.com/devilmancrybabyx/ZXR-stream/main/public/images/Shahid4u.png",
+      "contentLanguage": [
+        "ar"
+      ]
+    },
+    {
+      "id": "tuktuk",
+      "name": "TukTuk (توك توك سينما)",
+      "description": "أفلام ومسلسلات المنصات العالمية وسلاسل كاملة",
+      "version": "1.0.0",
+      "author": "devilmancrybabyx",
+      "supportedTypes": [
+        "movie",
+        "tv"
+      ],
+      "filename": "providers/tuktuk.js",
+      "enabled": true,
+      "formats": [
+        "mp4",
+        "m3u8"
+      ],
+      "logo": "https://raw.githubusercontent.com/devilmancrybabyx/ZXR-stream/main/public/images/TopCinema.png",
+      "contentLanguage": [
+        "ar"
+      ]
+    },
+    {
+      "id": "cimanow",
+      "name": "CimaNow (سيما ناو)",
+      "description": "باقة من أحدث الأفلام والمسلسلات العربية والأجنبية",
+      "version": "1.0.0",
+      "author": "devilmancrybabyx",
+      "supportedTypes": [
+        "movie",
+        "tv"
+      ],
+      "filename": "providers/cimanow.js",
+      "enabled": true,
+      "formats": [
+        "mp4",
+        "m3u8"
+      ],
+      "logo": "https://raw.githubusercontent.com/devilmancrybabyx/ZXR-stream/main/public/images/CimaNow.png",
+      "contentLanguage": [
+        "ar"
+      ]
+    },
+    {
+      "id": "topcinema",
+      "name": "TopCinema (توب سينما)",
+      "description": "أعلى الأفلام والمسلسلات تقييماً وسلاسل سينمائية",
+      "version": "1.0.0",
+      "author": "devilmancrybabyx",
+      "supportedTypes": [
+        "movie",
+        "tv"
+      ],
+      "filename": "providers/topcinema.js",
+      "enabled": true,
+      "formats": [
+        "mp4",
+        "m3u8"
+      ],
+      "logo": "https://raw.githubusercontent.com/devilmancrybabyx/ZXR-stream/main/public/images/TopCinema.png",
+      "contentLanguage": [
+        "ar"
+      ]
+    },
+    {
+      "id": "stardima",
+      "name": "StarDima (ستار ديما)",
+      "description": "المتخصص في كرتون الأطفال والأنمي المدبلج للعربية",
+      "version": "1.0.0",
+      "author": "devilmancrybabyx",
+      "supportedTypes": [
+        "movie",
+        "tv"
+      ],
+      "filename": "providers/stardima.js",
+      "enabled": true,
+      "formats": [
+        "mp4",
+        "m3u8"
+      ],
+      "logo": "https://raw.githubusercontent.com/devilmancrybabyx/ZXR-stream/main/public/images/cartoonanime.jpeg",
+      "contentLanguage": [
+        "ar"
+      ]
+    },
+    {
+      "id": "animezid",
+      "name": "Animezid (أنمي زد)",
+      "description": "أفلام ومسلسلات الأنمي والكرتون المدبلج والمترجم",
+      "version": "1.0.0",
+      "author": "devilmancrybabyx",
+      "supportedTypes": [
+        "movie",
+        "tv"
+      ],
+      "filename": "providers/animezid.js",
+      "enabled": true,
+      "formats": [
+        "mp4",
+        "m3u8"
+      ],
+      "logo": "https://raw.githubusercontent.com/devilmancrybabyx/ZXR-stream/main/public/images/animeslayer_logo.png",
+      "contentLanguage": [
+        "ar"
+      ]
+    },
+    {
+      "id": "dramaworld",
+      "name": "DramaWorld (عالم الدراما)",
+      "description": "المتخصص في الدراما الكورية والآسيوية المترجمة",
+      "version": "1.0.0",
+      "author": "devilmancrybabyx",
+      "supportedTypes": [
+        "movie",
+        "tv"
+      ],
+      "filename": "providers/dramaworld.js",
+      "enabled": true,
+      "formats": [
+        "mp4",
+        "m3u8"
+      ],
+      "logo": "https://raw.githubusercontent.com/devilmancrybabyx/ZXR-stream/main/public/images/DramaWorld.png",
+      "contentLanguage": [
+        "ar"
+      ]
+    },
+    {
+      "id": "shooflive",
+      "name": "ShoofLive (شوف لايف)",
+      "description": "مسلسلات عربية وتركية حصرية وسيرفرات سريعة",
+      "version": "1.0.0",
+      "author": "devilmancrybabyx",
+      "supportedTypes": [
+        "movie",
+        "tv"
+      ],
+      "filename": "providers/shooflive.js",
+      "enabled": true,
+      "formats": [
+        "mp4",
+        "m3u8"
+      ],
+      "logo": "https://raw.githubusercontent.com/devilmancrybabyx/ZXR-stream/main/public/images/Shahid4u.png",
+      "contentLanguage": [
+        "ar"
+      ]
+    },
+    {
+      "id": "anime3rb",
+      "name": "Anime3rb (أنمي عرب)",
+      "description": "مكتبة أنمي عربية متكاملة وسيرفرات مباشرة",
+      "version": "1.0.0",
+      "author": "devilmancrybabyx",
+      "supportedTypes": [
+        "movie",
+        "tv"
+      ],
+      "filename": "providers/anime3rb.js",
+      "enabled": true,
+      "formats": [
+        "mp4",
+        "m3u8"
+      ],
+      "logo": "https://raw.githubusercontent.com/devilmancrybabyx/ZXR-stream/main/public/images/Anime4Up.png",
+      "contentLanguage": [
+        "ar"
+      ]
+    },
+    {
+      "id": "animeday",
+      "name": "AnimeDay (أنمي داي)",
+      "description": "أنمي مترجم ومدبلج بجودة متعددة",
+      "version": "1.0.0",
+      "author": "devilmancrybabyx",
+      "supportedTypes": [
+        "movie",
+        "tv"
+      ],
+      "filename": "providers/animeday.js",
+      "enabled": true,
+      "formats": [
+        "mp4",
+        "m3u8"
+      ],
+      "logo": "https://raw.githubusercontent.com/devilmancrybabyx/ZXR-stream/main/public/images/AnimeDay.jpg",
+      "contentLanguage": [
+        "ar"
+      ]
+    },
+    {
+      "id": "animerift",
+      "name": "AnimeRift (أنمي ريفت)",
+      "description": "أحدث حلقات وأفلام الأنمي وسيرفرات مشاهدة متعددة",
+      "version": "1.0.0",
+      "author": "devilmancrybabyx",
+      "supportedTypes": [
+        "movie",
+        "tv"
+      ],
+      "filename": "providers/animerift.js",
+      "enabled": true,
+      "formats": [
+        "mp4",
+        "m3u8"
+      ],
+      "logo": "https://raw.githubusercontent.com/devilmancrybabyx/ZXR-stream/main/public/images/animeslayer_logo.png",
+      "contentLanguage": [
+        "ar"
+      ]
+    },
+    {
+      "id": "animeslayer",
+      "name": "AnimeSlayer (أنمي سلاير)",
+      "description": "تطبيق وموقع أنمي سلاير الشهير لمشاهدة الأنمي",
+      "version": "1.0.0",
+      "author": "devilmancrybabyx",
+      "supportedTypes": [
+        "movie",
+        "tv"
+      ],
+      "filename": "providers/animeslayer.js",
+      "enabled": true,
+      "formats": [
+        "mp4",
+        "m3u8"
+      ],
+      "logo": "https://raw.githubusercontent.com/devilmancrybabyx/ZXR-stream/main/public/images/animeslayer_logo.png",
+      "contentLanguage": [
+        "ar"
+      ]
+    },
+    {
+      "id": "cartoonanime",
+      "name": "CartoonAnime (كرتون أنمي)",
+      "description": "أكبر مكتبة كرتون كلاسيكي وحديث للأطفال",
+      "version": "1.0.0",
+      "author": "devilmancrybabyx",
+      "supportedTypes": [
+        "movie",
+        "tv"
+      ],
+      "filename": "providers/cartoonanime.js",
+      "enabled": true,
+      "formats": [
+        "mp4",
+        "m3u8"
+      ],
+      "logo": "https://raw.githubusercontent.com/devilmancrybabyx/ZXR-stream/main/public/images/cartoonanime.jpeg",
+      "contentLanguage": [
+        "ar"
+      ]
+    },
+    {
+      "id": "cimacloud",
+      "name": "CimaCloud (سيما كلاود)",
+      "description": "أفلام ومسلسلات أجنبية وعربية متجددة",
+      "version": "1.0.0",
+      "author": "devilmancrybabyx",
+      "supportedTypes": [
+        "movie",
+        "tv"
+      ],
+      "filename": "providers/cimacloud.js",
+      "enabled": true,
+      "formats": [
+        "mp4",
+        "m3u8"
+      ],
+      "logo": "https://raw.githubusercontent.com/devilmancrybabyx/ZXR-stream/main/public/images/CimaCloud.png",
+      "contentLanguage": [
+        "ar"
+      ]
+    },
+    {
+      "id": "cimawbas",
+      "name": "Cimawbas (سيما وبس)",
+      "description": "مشاهدة وتحميل أفلام ومسلسلات مباشرة",
+      "version": "1.0.0",
+      "author": "devilmancrybabyx",
+      "supportedTypes": [
+        "movie",
+        "tv"
+      ],
+      "filename": "providers/cimawbas.js",
+      "enabled": true,
+      "formats": [
+        "mp4",
+        "m3u8"
+      ],
+      "logo": "https://raw.githubusercontent.com/devilmancrybabyx/ZXR-stream/main/public/images/Cimawbas.png",
+      "contentLanguage": [
+        "ar"
+      ]
+    },
+    {
+      "id": "egywatch",
+      "name": "Egywatch (إيجي واتش)",
+      "description": "بث مباشر وأفلام ومسلسلات عربية وعالمية",
+      "version": "1.0.0",
+      "author": "devilmancrybabyx",
+      "supportedTypes": [
+        "movie",
+        "tv"
+      ],
+      "filename": "providers/egywatch.js",
+      "enabled": true,
+      "formats": [
+        "mp4",
+        "m3u8"
+      ],
+      "logo": "https://raw.githubusercontent.com/devilmancrybabyx/ZXR-stream/main/public/images/Egywatch.png",
+      "contentLanguage": [
+        "ar"
+      ]
+    },
+    {
+      "id": "timemovies",
+      "name": "TimeMovies (تايم موفيز)",
+      "description": "سلاسل سينمائية وأحدث العروض العالمية",
+      "version": "1.0.0",
+      "author": "devilmancrybabyx",
+      "supportedTypes": [
+        "movie",
+        "tv"
+      ],
+      "filename": "providers/timemovies.js",
+      "enabled": true,
+      "formats": [
+        "mp4",
+        "m3u8"
+      ],
+      "logo": "https://raw.githubusercontent.com/devilmancrybabyx/ZXR-stream/main/public/images/TimeMovies.png",
+      "contentLanguage": [
+        "ar"
+      ]
+    }
+  ]
+}

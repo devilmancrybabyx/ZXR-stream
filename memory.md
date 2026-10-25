@@ -1,140 +1,114 @@
 # 🧠 ZXR Stream — Memory & Technical Fallback Manual
 
-هذا الملف يُمثل **المرجع التقني الشامل ودليل الذاكرة (Fallback Memory)** لمشروع **ZXR Stream**. تم إعداده ليكون مرجعاً توثيقياً ثابتاً يمكنك الرجوع إليه في أي وقت لإجراء أي تعديل، إضافة مصادر جديدة، تحديث نطاقات المواقع، أو معالجة أي طارئ مستقبلاً.
+هذا الملف يُمثل **المرجع التقني الشامل ودليل الذاكرة (Fallback Memory)** لمشروع **ZXR Stream**. تم إعداده ليكون مرجعاً تقنياً ثابتاً يمكنك الرجوع إليه في أي وقت لإجراء أي تعديل، إضافة مصادر جديدة، تحديث نطاقات المواقع، أو صيانة الإضافة مستقبلاً.
 
 ---
 
-## 📌 1. نظرة عامة على المشروع (Overview)
+## 📌 1. نظرة عامة والمعمارية المزدوجة (Architecture Overview)
 
-- **الهدف الأساسي**: إعادة بناء وتحويل مستودع الإضافات العربية السابق (`mehdigm4life/mehdigm-stream`) الذي كان مخصصاً لتطبيق CloudStream ومكتوباً بلغة Kotlin (Android)، إلى **إضافة ويب موحدة متوافقة كلياً مع تطبيقي Stremio و Nuvio** بواسطة JavaScript و Node.js.
-- **البروتوكول المستخدم**: Stremio Addon Protocol v3 المدعوم رسمياً من تطبيق Stremio وتطبيق Nuvio.
-- **المستودع المستهدف**: `devilmancrybabyx/ZXR-stream`.
-- **المساهم الوحيد في سجل Git**: `devilmancrybabyx` (بدون Fork أو نقل سجلات المؤلفين السابقين).
+- **الهدف الأساسي**: إعادة بناء وتحويل جميع المواقع الـ 21 من مستودع CloudStream الأصلي (`mehdigm4life/mehdigm-stream`) إلى إضافة موحدة تعمل في:
+  1. **تطبيق Nuvio**: **مباشرة عبر GitHub** من خلال الرابط الخام لـ `manifest.json`، حيث يُحمّل التطبيق ملفات `providers/*.js` محلياً وينفذ الكشط والاستخراج مباشرة دون الحاجة لأي خادم وسيط.
+  2. **تطبيق Stremio**: عبر خادم Node.js / Express خفيف ينفذ بروتوكول Stremio Addon Protocol v3.
+- **المساهم الوحيد**: `devilmancrybabyx` في كامل سجل Git.
 
 ---
 
-## 📂 2. الهيكلية المعمارية للملفات (Project Structure)
+## 📂 2. الهيكلية التفصيلية للملفات
 
 ```text
 ZXR-stream/
-├── .gitignore                   # تجاهل ملفات الحزم والبيئة المؤقتة
-├── package.json                 # تعريف المشروع والتبعيات (express, cheerio, axios, cors)
-├── Dockerfile                   # حاوية تشغيل خفيفة وجاهزة لأي سيرفر
-├── vercel.json                  # إعدادات النشر السحابي المجاني عبر Vercel
-├── render.yaml                  # إعدادات النشر التلقائي عبر Render
-├── config.js                    # الإعدادات العامة، المهلات، والنطاقات الأساسية للمواقع
-├── manifest.js                  # تعريف مانيفست الإضافة لتطبيقي Stremio و Nuvio
-├── server.js                    # خادم Express الرئيسي ونقاط النهاية (Endpoints)
-├── README.md                    # وثيقة المستودع بالعربية مع أزرار التثبيت والشرح القانوني
-├── memory.md                    # ملف الذاكرة التقنية الحالي (Fallback Reference)
+├── manifest.json                # المانيفست الرئيسي المتوافق مع Nuvio و Stremio
+├── README.md                    # الوثيقة العربية الرسمية مع روابط التثبيت المباشرة
+├── memory.md                    # ملف الذاكرة الحالي للرجوع إليه عند أي تعديل
+├── package.json                 # تعريف المشروع والتبعيات
+├── config.js                    # تكوين النطاقات النشطة لجميع المواقع الـ 21
+├── server.js                    # خادم Express لـ Stremio وواجهة الويب
+├── manifest.js                  # مولد مانيفست Stremio الديناميكي
+├── providers/                   # كواشط Nuvio المستقلة الـ 21 (يتم استدعاؤها عبر GitHub مباشرة)
+│   ├── egydead.js
+│   ├── faselhd.js
+│   ├── witanime.js
+│   ├── anime4up.js
+│   ├── shahid4u.js
+│   ├── tuktuk.js
+│   ├── cimanow.js
+│   ├── topcinema.js
+│   ├── stardima.js
+│   ├── animezid.js
+│   ├── dramaworld.js
+│   ├── shooflive.js
+│   ├── anime3rb.js
+│   ├── animeday.js
+│   ├── animerift.js
+│   ├── animeslayer.js
+│   ├── cartoonanime.js
+│   ├── cimacloud.js
+│   ├── cimawbas.js
+│   ├── egywatch.js
+│   └── timemovies.js
 ├── lib/
-│   ├── cinemeta.js              # محلل المعرفات وفك تشفير أسماء الأعمال عبر IMDb و Kitsu
-│   ├── extractors/              # أدوات استخراج روابط الفيديو المباشرة ومفككات التشفير
-│   │   ├── jspacker.js          # مفكك تشفير Dean Edwards P.A.C.K.E.R.
-│   │   └── index.js             # مستخرجات StreamWish, VidHide, Uqload, Mixdrop, Mp4Upload, HLS
-│   └── providers/               # كاشطات وفهارس المواقع العربية الـ 12
-│       ├── utils.js             # دوال المقارنة وتطبيع النصوص العربية والأرقام
-│       ├── egydead.js           # كاشط موقع إيجي ديد (EgyDead)
-│       ├── faselhd.js           # كاشط موقع فاصل إعلاني (FaselHD)
-│       ├── witanime.js          # كاشط موقع ويت أنمي (WitAnime)
-│       ├── anime4up.js          # كاشط موقع أنمي فور اب (Anime4Up)
-│       ├── shahid4u.js          # كاشط موقع شاهد فور يو (Shahid4u)
-│       ├── tuktuk.js            # كاشط موقع توك توك سينما (TukTuk)
-│       ├── cimanow.js           # كاشط موقع سيما ناو (CimaNow)
-│       ├── topcinema.js         # كاشط موقع توب سينما (TopCinema)
-│       ├── stardima.js          # كاشط موقع ستار ديما للكرتون (StarDima)
-│       ├── animezid.js          # كاشط موقع أنمي زد (Animezid)
-│       ├── dramaworld.js        # كاشط موقع عالم الدراما (DramaWorld)
-│       ├── shooflive.js         # كاشط موقع شوف لايف (ShoofLive)
-│       └── index.js             # المنسق العام ومدير المصادر (ProviderManager)
-├── public/                      # واجهة التخصيص عبر الويب والأيقونات
-│   ├── index.html               # صفحة التثبيت والتخصيص التفاعلية (Arabic RTL)
-│   └── images/                  # شعار الإضافة والبانر وأيقونات المواقع
-└── test/
-    └── test.js                  # فحص واختبار التوافق الذاتي (Self-Check Test Suite)
+│   ├── cinemeta.js              # محلل المعرفات عبر IMDb و Kitsu
+│   ├── extractors/              # مفككات التشفير ومستخرجات الروابط المباشرة (m3u8, mp4, StreamWish...)
+│   └── providers/               # كواشط Node.js لخادم Stremio
+└── public/
+    ├── index.html               # واجهة التثبيت والتخصيص التفاعلية
+    └── images/                  # أيقونات المواقع والشعارات
 ```
 
 ---
 
-## 🔌 3. نقاط النهاية ومسارات البروتوكول (API Endpoints)
+## 🍿 3. قائمة المواقع الـ 21 والنطاقات النشطة (Active Domains)
 
-| المسار (Route) | الوظيفة | الوصف |
-|---|---|---|
-| `GET /` | تحويل تلقائي | يحول المستخدم إلى صفحة التثبيت والتخصيص `/configure` |
-| `GET /configure` | واجهة الويب | يعرض صفحة تثبيت بنقرة واحدة لـ Stremio و Nuvio مع تخصيص المصادر |
-| `GET /manifest.json` | مانيفست الإضافة | يوفر تفاصيل الإضافة (الاسم، التصنيفات، المعرفات المدعومة `tt`, `kitsu:`) |
-| `GET /:config/manifest.json` | مانيفست مخصص | يوفر المانيفست بناءً على خيارات المستخدم المحددة (المصادر المفعلة) |
-| `GET /catalog/:type/:id.json` | تصفح الكتالوج | كتالوجات الأفلام والمسلسلات والأنمي العربية |
-| `GET /stream/:type/:id.json` | جلب السيرفرات | **النواة الأساسية**: يستقبل طلب المشاهدة، يحلل العنوان، ويبحث في المصادر العربية |
-| `GET /proxy/stream` | جسر بث وسيط | تجاوز حظر Referer / CORS للمشغلات المدمجة في الويب |
-| `GET /health` | فحص الحالة | نقطة مراقبة Uptime ترجع كود 200 وعدد المصادر النشطة |
-
----
-
-## 🛠️ 4. آلية عمل دورة البث (Streaming Pipeline Lifecycle)
-
-عندما ينقر المستخدم على فيلم أو حلقة مسلسل في **Stremio** أو **Nuvio**:
-1. **الاستقبال**: يُرسل التطبيق طلباً إلى المسار `GET /stream/{type}/{id}.json`:
-   - للأفلام: `id = "tt0111161"`
-   - للمسلسلات: `id = "tt0944947:1:1"` (المعرف : الموسم : الحلقة)
-   - للأنمي: `id = "kitsu:12:1"`
-2. **التحليل وفك التشفير (`Cinemeta.js`)**:
-   - يتم جلب اسم العمل وسنة إنتاجه وعناوينه البديلة عبر استدعاء Cinemeta API أو Kitsu API مع التخزين المؤقت في الذاكرة لتسريع الطلبات المتكررة.
-3. **البحث الموازي المتعدد (`ProviderManager.js`)**:
-   - يتم تمرير اسم العمل وسنة إنتاجه والموسم والحلقة إلى المصادر المحددة في وقت واحد بالتوازي باستخدام `Promise.allSettled`.
-   - كل مزود يمتلك مهلة زمنية قدرها 11 ثانية لضمان سرعة الاستجابة وعدم تعليق التطبيق.
-4. **استخراج الروابط المباشرة (`StreamExtractors.js`)**:
-   - يتم تحليل صفحات المشاهدة والتحميل واستخراج مشغلات الفيديو:
-     - فك تشفير Dean Edwards عبر `JsPacker`.
-     - استخراج ملفات البث المتكيف HLS (`.m3u8`).
-     - استخراج روابط الفيديو المباشرة (`.mp4`).
-     - دعم سيرفرات الطرف الثالث (StreamWish, VidHide, Uqload, Mixdrop, Mp4Upload, AlbaPlayer).
-5. **الترتيب والإخراج**:
-   - يتم حذف الروابط المكررة وفرز السيرفرات تنازلياً حسب دقة العرض (4K ← 1080p FHD ← 720p HD ← Auto).
-   - تُرسل النتيجة بصيغة JSON المعيارية التي تدعم المشاهدة الفورية داخل Stremio و Nuvio.
+| المعرف (ID) | اسم المصدر | النطاق الأساسي (Base URL) | التصنيف |
+|---|---|---|---|
+| `egydead` | إيجي ديد (EgyDead) | `https://tv10.egydead.live` | أفلام ومسلسلات وأنمي |
+| `faselhd` | فاصل إعلاني (FaselHD) | `https://www.fasel-hd.co` | أفلام ومسلسلات أجنبية |
+| `witanime` | ويت أنمي (WitAnime) | `https://witanime.com` | أنمي ياباني |
+| `anime4up` | أنمي فور اب (Anime4Up) | `https://w1.anime4up.rest` | مسلسلات وأفلام أنمي |
+| `shahid4u` | شاهد فور يو (Shahid4u) | `https://shaahidd4u.net` | مسلسلات عربية وتركية |
+| `tuktuk` | توك توك سينما (TukTuk) | `https://tuktukhd.com` | منصات عالمية وأفلام |
+| `cimanow` | سيما ناو (CimaNow) | `https://cimanow.cc` | أعمال عربية وأجنبية |
+| `topcinema` | توب سينما (TopCinema) | `https://topcinema.film` | تقييمات IMDb وسلاسل |
+| `stardima` | ستار ديما (StarDima) | `https://app.stardima.com` | كرتون أطفال ومدبلج |
+| `animezid` | أنمي زد (Animezid) | `https://animezid.org` | أنمي وكرتون |
+| `dramaworld` | عالم الدراما (DramaWorld) | `https://test.arabypros.com` | دراما كورية وآسيوية |
+| `shooflive` | شوف لايف (ShoofLive) | `https://shooflive.watch` | مسلسلات عربية وتركية |
+| `anime3rb` | أنمي عرب (Anime3rb) | `https://anime3rb.com` | أنمي مترجم |
+| `animeday` | أنمي داي (AnimeDay) | `https://www.anime-day.com` | مسلسلات وأفلام أنمي |
+| `animerift` | أنمي ريفت (AnimeRift) | `https://www.anime-rift.com` | أنمي وأوفا |
+| `animeslayer` | أنمي سلاير (AnimeSlayer) | `https://anslayer.com` | واجهة تطبيق أنمي سلاير |
+| `cartoonanime` | كرتون أنمي (CartoonAnime) | `https://apps-anime.com` | كرتون كلاسيكي وحديث |
+| `cimacloud` | سيما كلاود (CimaCloud) | `https://www.cima-cloud.com` | أفلام ومسلسلات |
+| `cimawbas` | سيما وبس (Cimawbas) | `https://vid.mycima.cc` | أفلام ومسلسلات |
+| `egywatch` | إيجي واتش (Egywatch) | `https://egywatch.me` | أعمال منوعة وبث مباشر |
+| `timemovies` | تايم موفيز (TimeMovies) | `https://tmovies.app` | عروض سينمائية وسلاسل |
 
 ---
 
-## 🔄 5. دليل الصيانة والتعديل السريع (Maintenance Guide)
+## ⚡ 4. روابط التثبيت والتشغيل
 
-### إذا غيّر أحد المواقع العربية نطاقه (Domain Change):
-1. افتح ملف `config.js`.
-2. حدّث رابط الموقع تحت قسم `DOMAINS`، مثال:
-   ```javascript
-   DOMAINS: {
-     egydead: 'https://new-egydead-domain.com',
-     ...
-   }
-   ```
-3. أعد تشغيل الخادم، وسيعمل فوراً دون المساس بباقي الكود!
+### لتطبيق Nuvio (مباشرة عبر GitHub):
+انسخ الرابط التالي والصقه في Nuvio تحت **Settings** ← **Plugins / Scrapers** ← **Add Manifest URL**:
+```text
+https://raw.githubusercontent.com/devilmancrybabyx/ZXR-stream/main/manifest.json
+```
 
-### لإضافة موقع أو كاشط جديد:
-1. أنشئ ملفاً جديداً في مجلد `lib/providers/` (مثلاً: `lib/providers/newsite.js`).
-2. نفّذ دالة `getStreams(query)` التي تبحث وتستخرج الروابط عبر `StreamExtractors.extract(...)`.
-3. قم باستيراد الملف في `lib/providers/index.js` وضمه إلى مصفوفة `ALL_PROVIDERS`.
-4. شغّل الاختبار للتأكد:
+### لتطبيق Stremio:
+1. تشغيل الخادم على جهازك:
    ```bash
-   npm test
+   npm install
+   npm start
    ```
+2. تثبيت الرابط داخل Stremio:
+   `http://localhost:7000/manifest.json`
 
 ---
 
-## 🚀 6. أوامر التشغيل والنشر المعتمدة
+## 🔧 5. دليل الصيانة والتعديل السريع
 
-```bash
-# 1. التثبيت
-npm install
-
-# 2. تشغيل فحص التحقق الذاتي
-npm test
-
-# 3. تشغيل خادم التطوير
-npm run dev
-
-# 4. تشغيل خادم الإنتاج
-npm start
-```
-
----
-
-*هذا الدليل محفوظ ومحدث تلقائياً بواسطة Antigravity لمطوري ومسؤولي مستودع ZXR Stream.*
+- **لتحديث نطاق موقع غيّر رابطه**:
+  عدّل النطاق في `config.js` وأعد تشغيل `node scripts/build-manifest.js` لتحديث ملفات `providers/` و `manifest.json`.
+- **لتشغيل الفحص الذاتي واختبار التوافق**:
+  ```bash
+  npm test
+  ```
