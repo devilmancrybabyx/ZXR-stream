@@ -1,0 +1,36 @@
+{
+  "name": "zxr-stream",
+  "version": "1.0.0",
+  "description": "إضافة عربية متكاملة لتطبيقي Stremio و Nuvio لمشاهدة الأفلام والمسلسلات والأنمي والكرتون من أقوى المواقع العربية",
+  "main": "server.js",
+  "type": "commonjs",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js",
+    "test": "node test/test.js"
+  },
+  "keywords": [
+    "stremio",
+    "stremio-addon",
+    "nuvio",
+    "nuvio-addon",
+    "arabic",
+    "arabic-movies",
+    "arabic-series",
+    "anime",
+    "egydead",
+    "faselhd",
+    "witanime",
+    "anime4up",
+    "shahid4u"
+  ],
+  "author": "devilmancrybabyx",
+  "license": "MIT",
+  "dependencies": {
+    "axios": "^1.7.9",
+    "cheerio": "^1.0.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2"
+  }
+}

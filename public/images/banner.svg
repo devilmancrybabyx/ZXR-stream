@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 400" width="1200" height="400">
+  <defs>
+    <linearGradient id="bannerBg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0a0f1d" />
+      <stop offset="50%" stop-color="#141432" />
+      <stop offset="100%" stop-color="#070a14" />
+    </linearGradient>
+    <linearGradient id="accentGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#4f46e5" />
+      <stop offset="50%" stop-color="#9333ea" />
+      <stop offset="100%" stop-color="#e11d48" />
+    </linearGradient>
+    <filter id="bannerGlow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="15" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+  </defs>
+  <rect width="1200" height="400" fill="url(#bannerBg)" />
+  
+  <!-- Subtle decorative grid & glowing circles -->
+  <circle cx="150" cy="80" r="140" fill="#6366f1" opacity="0.12" filter="url(#bannerGlow)" />
+  <circle cx="1050" cy="320" r="180" fill="#ec4899" opacity="0.1" filter="url(#bannerGlow)" />
+  
+  <!-- Center ZXR Symbol -->
+  <g transform="translate(180, 100)">
+    <rect width="160" height="160" rx="36" fill="#1e1b4b" stroke="url(#accentGrad)" stroke-width="4" />
+    <path d="M 60 45 L 120 80 L 60 115 Z" fill="url(#accentGrad)" filter="url(#bannerGlow)" />
+  </g>
+  
+  <!-- Arabic & English Titles -->
+  <text x="390" y="160" font-family="system-ui, -apple-system, 'Segoe UI', Tahoma, sans-serif" font-weight="900" font-size="58" fill="#ffffff" letter-spacing="2">ZXR STREAM</text>
+  <text x="390" y="215" font-family="system-ui, -apple-system, 'Segoe UI', Tahoma, sans-serif" font-weight="800" font-size="34" fill="#a5b4fc">إضافات عربية لـ ستريميو + نوفيو</text>
+  <text x="390" y="260" font-family="system-ui, -apple-system, 'Segoe UI', Tahoma, sans-serif" font-weight="500" font-size="20" fill="#94a3b8">أفلام • مسلسلات • أنمي • كرتون | إيجي ديد • فاصل إعلاني • ويت أنمي • شاهد فور يو</text>
+  
+  <!-- Badges -->
+  <g transform="translate(390, 285)">
+    <rect width="120" height="34" rx="17" fill="#4f46e5" opacity="0.25" stroke="#6366f1" stroke-width="1.5" />
+    <text x="60" y="22" text-anchor="middle" font-family="sans-serif" font-size="14" font-weight="bold" fill="#c7d2fe">STREMIO</text>
+    
+    <rect x="135" width="105" height="34" rx="17" fill="#ec4899" opacity="0.25" stroke="#f43f5e" stroke-width="1.5" />
+    <text x="187" y="22" text-anchor="middle" font-family="sans-serif" font-size="14" font-weight="bold" fill="#fecdd3">NUVIO</text>
+
+    <rect x="255" width="150" height="34" rx="17" fill="#10b981" opacity="0.25" stroke="#10b981" stroke-width="1.5" />
+    <text x="330" y="22" text-anchor="middle" font-family="sans-serif" font-size="14" font-weight="bold" fill="#a7f3d0">12 مصدراً عربياً</text>
+  </g>
+</svg>

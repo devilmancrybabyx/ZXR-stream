@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ZXR Stream — إضافات عربية لـ Stremio و Nuvio</title>
+  <link rel="icon" type="image/svg+xml" href="/images/logo.svg">
+  <style>
+    :root {
+      --bg: #0b0f19;
+      --card-bg: rgba(23, 31, 51, 0.7);
+      --card-border: rgba(99, 102, 241, 0.2);
+      --primary: #6366f1;
+      --primary-hover: #4f46e5;
+      --accent: #ec4899;
+      --text: #f8fafc;
+      --text-muted: #94a3b8;
+      --success: #10b981;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 2rem 1rem;
+      background-image: 
+        radial-gradient(circle at 10% 20%, rgba(99, 102, 241, 0.15) 0%, transparent 40%),
+        radial-gradient(circle at 90% 80%, rgba(236, 72, 153, 0.12) 0%, transparent 40%);
+    }
+
+    .container {
+      max-width: 820px;
+      width: 100%;
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    .logo {
+      width: 105px;
+      height: 105px;
+      margin-bottom: 1rem;
+      border-radius: 24px;
+      box-shadow: 0 10px 30px rgba(99, 102, 241, 0.35);
+    }
+
+    h1 {
+      font-size: 2.2rem;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      margin-bottom: 0.5rem;
+      background: linear-gradient(135deg, #fff 0%, #a5b4fc 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .subtitle {
+      font-size: 1.1rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+
+    .badges {
+      display: flex;
+      gap: 0.6rem;
+      justify-content: center;
+      margin-top: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .badge {
+      background: rgba(99, 102, 241, 0.15);
+      border: 1px solid rgba(99, 102, 241, 0.3);
+      padding: 0.35rem 0.8rem;
+      border-radius: 9999px;
+      font-size: 0.85rem;
+      color: #c7d2fe;
+    }
+
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      backdrop-filter: blur(12px);
+      border-radius: 20px;
+      padding: 2rem;
+      margin-bottom: 2rem;
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.3);
+    }
+
+    .card-title {
+      font-size: 1.3rem;
+      font-weight: 700;
+      margin-bottom: 1.2rem;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      color: #fff;
+    }
+
+    /* Buttons */
+    .actions {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      margin-top: 1.5rem;
+    }
+
+    @media (min-width: 640px) {
+      .actions {
+        flex-direction: row;
+      }
+    }
+
+    .btn {
+      flex: 1;
+      padding: 1rem 1.4rem;
+      border-radius: 14px;
+      font-size: 1.05rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.6rem;
+      text-decoration: none;
+      transition: all 0.2s ease;
+      border: none;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--primary) 0%, #8b5cf6 100%);
+      color: #fff;
+      box-shadow: 0 8px 20px rgba(99, 102, 241, 0.4);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 25px rgba(99, 102, 241, 0.6);
+    }
+
+    .btn-secondary {
+      background: rgba(255, 255, 255, 0.08);
+      color: #fff;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+    }
+
+    .btn-secondary:hover {
+      background: rgba(255, 255, 255, 0.14);
+      transform: translateY(-2px);
+    }
+
+    /* Providers Grid */
+    .providers-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+      gap: 0.8rem;
+    }
+
+    .provider-item {
+      background: rgba(15, 23, 42, 0.5);
+      border: 1px solid rgba(255, 255, 255, 0.07);
+      padding: 0.9rem 1rem;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+      transition: border 0.2s;
+    }
+
+    .provider-item:hover {
+      border-color: rgba(99, 102, 241, 0.5);
+    }
+
+    .provider-info {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      font-size: 0.95rem;
+      font-weight: 600;
+    }
+
+    /* Steps list */
+    .step-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 1.2rem;
+    }
+
+    .step-item {
+      display: flex;
+      gap: 1rem;
+      align-items: flex-start;
+    }
+
+    .step-num {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: var(--primary);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      flex-shrink: 0;
+      font-size: 0.9rem;
+    }
+
+    .step-text h4 {
+      font-size: 1.05rem;
+      margin-bottom: 0.2rem;
+    }
+
+    .step-text p {
+      font-size: 0.92rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+
+    .copy-toast {
+      position: fixed;
+      bottom: 2rem;
+      right: 50%;
+      transform: translateX(50%);
+      background: #10b981;
+      color: #fff;
+      padding: 0.8rem 1.6rem;
+      border-radius: 9999px;
+      font-weight: 700;
+      box-shadow: 0 10px 25px rgba(16, 185, 129, 0.4);
+      opacity: 0;
+      transition: opacity 0.3s;
+      pointer-events: none;
+      z-index: 100;
+    }
+
+    .copy-toast.show {
+      opacity: 1;
+    }
+
+    /* Legal disclaimer */
+    .legal {
+      margin-top: 2rem;
+      padding: 1.5rem;
+      border-radius: 14px;
+      background: rgba(0, 0, 0, 0.35);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      font-size: 0.82rem;
+      color: #64748b;
+      line-height: 1.6;
+      text-align: justify;
+    }
+
+    .legal h5 {
+      color: #94a3b8;
+      font-size: 0.9rem;
+      margin-bottom: 0.5rem;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <!-- Header -->
+    <div class="header">
+      <img src="/images/logo.svg" alt="ZXR Stream Logo" class="logo">
+      <h1>ZXR STREAM</h1>
+      <p class="subtitle">المستودع العربي الشامل لإضافات المشاهدة لتطبيقي <b>Stremio</b> و <b>Nuvio</b></p>
+      <div class="badges">
+        <span class="badge">🎬 أفلام ومسلسلات</span>
+        <span class="badge">🎌 أنمي وكرتون</span>
+        <span class="badge">📺 Stremio + Nuvio</span>
+        <span class="badge">⚡ بدون إعلانات</span>
+      </div>
+    </div>
+
+    <!-- Quick Install Card -->
+    <div class="card">
+      <div class="card-title">
+        <span>🚀</span> التثبيت السريع
+      </div>
+      <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 1.2rem;">
+        يمكنك تثبيت الإضافة بضغطة زر واحدة في Stremio أو نسخ رابط الـ Manifest ولصقه في Nuvio:
+      </p>
+
+      <div class="actions">
+        <a id="btnInstallStremio" href="#" class="btn btn-primary">
+          <span>📱</span> تثبيت في Stremio
+        </a>
+        <button id="btnCopyManifest" class="btn btn-secondary">
+          <span>📋</span> نسخ رابط نوفيو (Nuvio)
+        </button>
+      </div>
+    </div>
+
+    <!-- Providers Configuration -->
+    <div class="card">
+      <div class="card-title">
+        <span>⚙️</span> تخصيص المصادر المتاحة
+      </div>
+      <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1.2rem;">
+        اختر المصادر العربية التي ترغب في البحث من خلالها (جميع المصادر مفعلة افتراضياً):
+      </p>
+
+      <div class="providers-grid">
+        <label class="provider-item">
+          <div class="provider-info">
+            <span>🎬</span> إيجي ديد (EgyDead)
+          </div>
+          <input type="checkbox" name="provider" value="egydead" checked>
+        </label>
+        <label class="provider-item">
+          <div class="provider-info">
+            <span>🎬</span> فاصل إعلاني (FaselHD)
+          </div>
+          <input type="checkbox" name="provider" value="faselhd" checked>
+        </label>
+        <label class="provider-item">
+          <div class="provider-info">
+            <span>🎌</span> ويت أنمي (WitAnime)
+          </div>
+          <input type="checkbox" name="provider" value="witanime" checked>
+        </label>
+        <label class="provider-item">
+          <div class="provider-info">
+            <span>🎌</span> أنمي فور اب (Anime4Up)
+          </div>
+          <input type="checkbox" name="provider" value="anime4up" checked>
+        </label>
+        <label class="provider-item">
+          <div class="provider-info">
+            <span>📺</span> شاهد فور يو (Shahid4u)
+          </div>
+          <input type="checkbox" name="provider" value="shahid4u" checked>
+        </label>
+        <label class="provider-item">
+          <div class="provider-info">
+            <span>🎬</span> توك توك سينما (TukTuk)
+          </div>
+          <input type="checkbox" name="provider" value="tuktuk" checked>
+        </label>
+        <label class="provider-item">
+          <div class="provider-info">
+            <span>🎬</span> سيما ناو (CimaNow)
+          </div>
+          <input type="checkbox" name="provider" value="cimanow" checked>
+        </label>
+        <label class="provider-item">
+          <div class="provider-info">
+            <span>🎬</span> توب سينما (TopCinema)
+          </div>
+          <input type="checkbox" name="provider" value="topcinema" checked>
+        </label>
+        <label class="provider-item">
+          <div class="provider-info">
+            <span>🧸</span> ستار ديما (StarDima)
+          </div>
+          <input type="checkbox" name="provider" value="stardima" checked>
+        </label>
+        <label class="provider-item">
+          <div class="provider-info">
+            <span>🎌</span> أنمي زد (Animezid)
+          </div>
+          <input type="checkbox" name="provider" value="animezid" checked>
+        </label>
+        <label class="provider-item">
+          <div class="provider-info">
+            <span>🌏</span> عالم الدراما (DramaWorld)
+          </div>
+          <input type="checkbox" name="provider" value="dramaworld" checked>
+        </label>
+        <label class="provider-item">
+          <div class="provider-info">
+            <span>📺</span> شوف لايف (ShoofLive)
+          </div>
+          <input type="checkbox" name="provider" value="shooflive" checked>
+        </label>
+      </div>
+    </div>
+
+    <!-- Installation Steps Guide -->
+    <div class="card">
+      <div class="card-title">
+        <span>📖</span> طريقة التثبيت خطوة بخطوة
+      </div>
+
+      <div style="margin-bottom: 1.5rem;">
+        <h3 style="font-size: 1.15rem; color: #a5b4fc; margin-bottom: 0.8rem;">📱 التثبيت في تطبيق Stremio (أندرويد، ويندوز، ماك، تلفاز)</h3>
+        <ul class="step-list">
+          <li class="step-item">
+            <div class="step-num">1</div>
+            <div class="step-text">
+              <h4>اضغط زر "تثبيت في Stremio" أعلاه</h4>
+              <p>سيقوم المتصفح بفتح تطبيق Stremio تلقائياً وعرض شاشة تأكيد التثبيت.</p>
+            </div>
+          </li>
+          <li class="step-item">
+            <div class="step-num">2</div>
+            <div class="step-text">
+              <h4>أو يدوياً عبر شريط البحث</h4>
+              <p>انسخ رابط الـ Manifest، افتح Stremio، اذهب إلى قسم <b>الإضافات (Addons)</b>، والصق الرابط في شريط البحث ثم اضغط <b>Install</b>.</p>
+            </div>
+          </li>
+        </ul>
+      </div>
+
+      <hr style="border: none; border-top: 1px solid rgba(255,255,255,0.08); margin: 1.5rem 0;">
+
+      <div>
+        <h3 style="font-size: 1.15rem; color: #f472b6; margin-bottom: 0.8rem;">⚡ التثبيت في تطبيق Nuvio</h3>
+        <ul class="step-list">
+          <li class="step-item">
+            <div class="step-num">1</div>
+            <div class="step-text">
+              <h4>اضغط زر "نسخ رابط نوفيو"</h4>
+              <p>سيتم نسخ رابط الـ manifest.json المباشر إلى الحافظة.</p>
+            </div>
+          </li>
+          <li class="step-item">
+            <div class="step-num">2</div>
+            <div class="step-text">
+              <h4>الصق الرابط في تطبيق Nuvio</h4>
+              <p>افتح Nuvio ← انتقل إلى <b>الإعدادات (Settings)</b> ← <b>الإضافات (Add-ons / Plugins)</b> ← اضغط <b>Add Manifest URL</b> والصق الرابط.</p>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Legal & DMCA Disclaimer -->
+    <div class="legal">
+      <h5>⚖️ إخلاء مسؤولية قانوني وحماية حقوق الملكية (Legal & DMCA Disclaimer)</h5>
+      <p>
+        هذا المشروع هو أداة برمجية مفتوحة المصدر تم تطويرها لأغراض بحثية وتعليمية وتقنية فقط.
+        <b>لا يقوم خادم ZXR Stream باستضافة أو رفع أو تخزين أي ملفات وسائط أو فيديوهات أو أفلام إطلاقاً</b> على خوادمه الخاصة.
+        تقتصر وظيفة الإضافة على استخراج وفهرسة روابط البث المتاحة للعامة بالفعل على شبكة الإنترنت المفتوحة، وتعمل كأداة بحث للمستخدمين المصرح لهم بمشاهدة تلك الروابط.
+        جميع الحقوق والعلامات التجارية محفوظة لأصحابها وموزعيها الأصليين. استخدام هذه الإضافة يقع تحت مسؤولية المستخدم وحده طبقاً للقوانين المحلية المعمول بها في بلده.
+        إذا كنت مالكاً لأي محتوى وترغب في إزالة أي رابط مفهرس، يرجى التواصل معنا عبر مستودع GitHub لاتخاذ الإجراء الفوري.
+      </p>
+    </div>
+  </div>
+
+  <div id="toast" class="copy-toast">تم نسخ رابط Manifest بنجاح! 🎉</div>
+
+  <script>
+    function getManifestUrl() {
+      const origin = window.location.origin;
+      const checkedBoxes = Array.from(document.querySelectorAll('input[name="provider"]:checked')).map(cb => cb.value);
+      
+      // If all are checked, use clean manifest.json
+      if (checkedBoxes.length === 12) {
+        return `${origin}/manifest.json`;
+      }
+      
+      const configObj = { providers: checkedBoxes };
+      const configStr = btoa(JSON.stringify(configObj));
+      return `${origin}/${configStr}/manifest.json`;
+    }
+
+    function updateInstallLinks() {
+      const manifestUrl = getManifestUrl();
+      const stremioProtocolUrl = manifestUrl.replace(/^https?:\/\//i, 'stremio://');
+      
+      const btnStremio = document.getElementById('btnInstallStremio');
+      btnStremio.href = stremioProtocolUrl;
+    }
+
+    document.querySelectorAll('input[name="provider"]').forEach(input => {
+      input.addEventListener('change', updateInstallLinks);
+    });
+
+    document.getElementById('btnCopyManifest').addEventListener('click', () => {
+      const url = getManifestUrl();
+      navigator.clipboard.writeText(url).then(() => {
+        const toast = document.getElementById('toast');
+        toast.classList.add('show');
+        setTimeout(() => toast.classList.remove('show'), 2500);
+      });
+    });
+
+    updateInstallLinks();
+  </script>
+</body>
+</html>

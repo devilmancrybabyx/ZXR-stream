@@ -1,0 +1,12 @@
+services:
+  - type: web
+    name: zxr-stream
+    env: node
+    plan: free
+    buildCommand: npm install --production
+    startCommand: node server.js
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 10000
