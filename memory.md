@@ -102,7 +102,7 @@ ZXR-stream/
 
 ### 6. التنسيق الجمالي الاحترافي للروابط والرموز التعبيرية (Emoji Title Standard)
 - تم تطبيق التنسيق الدقيق المطلوب:
-  - **الاسم (`name`)**: `🎬<WebsiteName> 🧊 <Quality> • ZXR Stream` (مثال: `🎬EgyDead 🧊 1080p • ZXR Stream`)
+  - **الاسم (`name`)**: `🎬<WebsiteName> 🧊 <Quality> • ZXR Stream` (مثال: `🎬EgyDead 🧊 1080p • ZXR Stream` أو `🎬TopCinema 🧊 1080p • ZXR Stream`)
   - **التفاصيل (`title`)**:
     ```text
     🍿 <Title>
@@ -111,6 +111,15 @@ ZXR-stream/
     📡 Source: <WebsiteName> • ZXR Stream
     💬 Arabic Subtitles (مترجم للعربية)
     ```
+
+### 7. حل مشكلة توقف تشغيل VidHide وإعادة تفعيل موقع TopCinema
+- **سبب توقف VidHide السابق على الأجهزة**: عند توليد الرابط في سيرفر Vercel السحابي، كان رابط `m3u8` يحمل معلماً يُدعى `&asn=\d+` يربط التوكن برقم مزود خدمة السيرفر (Datacenter ASN). عند محاولة جهاز المستخدم تشغيل الرابط من شبكته المنزلية/الخلوية، ترفض شبكة توزيع الفيديو (CDN) الطلب بـ 403 Forbidden لاختلاف الـ ASN.
+  - **الحل**: تنظيف وإزالة معامل `asn` تلقائياً من روابط HLS لتعمل مباشرة وسلاسة على أي جهاز وأي شبكة.
+- **تفعيل توب سينما (TopCinema)**:
+  - تحديث النطاق النشط إلى `https://topcinemaa.vip`.
+  - تحديث محرك البحث لاستخدام `/search/?query=...&type=all`.
+  - جلب السيرفرات المتعددة عبر طلبات Ajax المتوازية `Single/Server.php` (Vidtube, UpDown, StreamWish, Uqload).
+  - إضافة مفككات تشفير P.A.C.K.E.R لسيرفر VideoTube (`.m3u8`) و UpDown (`.mp4`).
 
 ---
 
