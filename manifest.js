@@ -2,8 +2,6 @@
  * Stremio & Nuvio Addon Manifest Definition
  */
 
-const ProviderManager = require('./lib/providers');
-
 function getManifest(userConfig = {}, hostUrl = '') {
   const logo = hostUrl ? `${hostUrl}/images/logo.svg` : 'https://raw.githubusercontent.com/devilmancrybabyx/ZXR-stream/main/public/images/logo.svg';
   const background = hostUrl ? `${hostUrl}/images/banner.svg` : 'https://raw.githubusercontent.com/devilmancrybabyx/ZXR-stream/main/public/images/banner.svg';
@@ -12,7 +10,7 @@ function getManifest(userConfig = {}, hostUrl = '') {
     id: 'org.zxr.stream.arabic',
     version: '1.0.0',
     name: 'ZXR Stream (إضافات عربية)',
-    description: 'المستودع العربي الشامل لإضافات المشاهدة لتطبيقي Stremio و Nuvio — أفلام، مسلسلات، أنمي، وكرتون من أشهر 21 موقعاً عربياً',
+    description: 'المستودع العربي الشامل لمشاهدة الأفلام والمسلسلات والأنمي المترجم والمدبلج من أقوى المصادر العربية: إيجي ديد، فاصل إعلاني، ويت أنمي، أنمي فور اب، شاهد فور يو، توك توك سينما، توب سينما، والمزيد.',
     logo: logo,
     background: background,
     resources: [
@@ -32,26 +30,8 @@ function getManifest(userConfig = {}, hostUrl = '') {
     catalogs: [
       {
         type: 'movie',
-        id: 'zxr_movies',
-        name: '🎬 أفلام عربية ومترجمة (ZXR)',
-        extra: [
-          { name: 'search', isRequired: false },
-          { name: 'skip', isRequired: false }
-        ]
-      },
-      {
-        type: 'series',
-        id: 'zxr_series',
-        name: '📺 مسلسلات عربية وأجنبية (ZXR)',
-        extra: [
-          { name: 'search', isRequired: false },
-          { name: 'skip', isRequired: false }
-        ]
-      },
-      {
-        type: 'anime',
-        id: 'zxr_anime',
-        name: '🎌 أنمي وكرتون (ZXR)',
+        id: 'zxr_catalog',
+        name: '🌟 ZXR Stream (المكتبة العربية الشاملة)',
         extra: [
           { name: 'search', isRequired: false },
           { name: 'skip', isRequired: false }

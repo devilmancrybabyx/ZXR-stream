@@ -87,7 +87,30 @@ ZXR-stream/
   1. إرسال ترويسات `X-Inertia: true` و `X-Inertia-Partial-Component: files/mirror/video` و `X-Inertia-Partial-Data: streams`.
   2. في حال حدوث 409 Conflict، يتم التقاط رقم الإصدار الجديد من ترويسة `x-inertia-version` وإعادة الطلب.
   3. يتم استخراج كافة السيرفرات والمرايا بجميع الجودات (1080p, 720p, 480p) ومفكك P.A.C.K.E.R لفك تشفير روابط Uqload و VidHide واستخراج رابط HLS مباشر عالي السرعة (`master.m3u8`).
-  4. تنفيذ الاستخراج بالتوازي بسرعة فائقة (أقل من 1.5 ثانية).
+  4. استخراج مباشر بالتوازي بسرعة فائقة (أقل من 1.5 ثانية).
+
+### 4. دمج الكتالوجات في كتالوج واحد موحد (Single Merged Catalog)
+- **سبب التعديل**: كان المانيفست يقسم الأعمال إلى 3 كتالوجات مما يظهر "3 catalogs" في تطبيق Nuvio.
+- **الحل**: تم توحيد الكتالوجات في كتالوج واحد فقط تحت اسم المعرف `zxr_catalog` واسم `🌟 ZXR Stream (المكتبة العربية الشاملة)` مع دعم التصنيف (`type: 'movie'`) والبحث الشامل للأفلام والمسلسلات معاً وتصفح مدمج.
+
+### 5. حل تشغيل السيرفرات وجعلها صالحة للتشغيل 100% (Direct Playable Streams)
+- **سبب المشكلة السابق**: كانت السيرفرات تظهر في التطبيق لكنها لا تعمل أو تفشل عند الضغط عليها، والسبب أن بعض الروابط كانت عبارة عن صفحات ويب وتضمين إعلاني (HTML embeds مثل `vidmoly.biz/embed-...` و `mixdrop.ag/e/...`). عند محاولة مشغل Nuvio/Stremio (ExoPlayer) تشغيل صفحة HTML كفيديو، يعطي خطأ صيغة غير مدعومة أو فشل التشغيل. كذلك سيرفرات Uqload كانت ترفض التشغيل بـ 403 Forbidden لنقص ترويسة `Referer`.
+- **الحل**:
+  1. تصفية ومنع إرجاع أي روابط تضمين HTML عادية.
+  2. حل الروابط واستخراج مسارات الفيديو الحقيقية والمباشرة (`.m3u8` أو `.mp4`) لسيرفرات VidHide و Vidmoly و StreamWish و Uqload.
+  3. إرفاق ترويسات التشغيل `behaviorHints.proxyHeaders` مع ترويسة `Referer: https://uqload.vc/` لتخطي حظر Cloudflare و NGINX.
+
+### 6. التنسيق الجمالي الاحترافي للروابط والرموز التعبيرية (Emoji Title Standard)
+- تم تطبيق التنسيق الدقيق المطلوب:
+  - **الاسم (`name`)**: `🎬<WebsiteName> 🧊 <Quality> • ZXR Stream` (مثال: `🎬EgyDead 🧊 1080p • ZXR Stream`)
+  - **التفاصيل (`title`)**:
+    ```text
+    🍿 <Title>
+    🏷️ <Host> - <Quality> <ResolutionBadge>
+    🎞️ <Quality> • Direct
+    📡 Source: <WebsiteName> • ZXR Stream
+    💬 Arabic Subtitles (مترجم للعربية)
+    ```
 
 ---
 

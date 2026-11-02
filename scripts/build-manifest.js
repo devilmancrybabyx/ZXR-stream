@@ -105,7 +105,8 @@ async function extractStreamsFromUrl(embedUrl, referer) {
     const m3u8Matches = [...combined.matchAll(/https?:\\/\\/[^\\s"'<>]+\\.m3u8[^\\s"'<>]*/gi)];
     for (const m of m3u8Matches) {
       streams.push({
-        name: "${p.name} (HLS)",
+        name: "🎬${p.name} 🧊 Auto • ZXR Stream",
+        title: "🍿 رابط مباشر عالي الجودة\\n🏷️ ${p.name} Direct HLS\\n🎞️ Auto • Direct\\n📡 Source: ${p.name} • ZXR Stream\\n💬 Arabic Subtitles",
         url: m[0],
         quality: "Auto",
         headers: { Referer: embedUrl }
@@ -116,7 +117,8 @@ async function extractStreamsFromUrl(embedUrl, referer) {
     const mp4Matches = [...combined.matchAll(/https?:\\/\\/[^\\s"'<>]+\\.mp4[^\\s"'<>]*/gi)];
     for (const m of mp4Matches) {
       streams.push({
-        name: "${p.name} (MP4)",
+        name: "🎬${p.name} 🧊 1080p • ZXR Stream",
+        title: "🍿 فيديو مباشر عالي الجودة\\n🏷️ ${p.name} Direct MP4\\n🎞️ 1080p • Direct\\n📡 Source: ${p.name} • ZXR Stream\\n💬 Arabic Subtitles",
         url: m[0],
         quality: "1080p",
         headers: { Referer: embedUrl }
@@ -135,7 +137,6 @@ async function getStreams(tmdbId, mediaType = "movie", season = null, episode = 
     const res = await fetch(searchUrl, { headers: HEADERS });
     const html = await res.text();
 
-    // Match candidate link
     const linkMatches = [...html.matchAll(/href=["'](https?:\\/\\/[^"']*(?:movie|film|series|anime|episode|video|post)[^"']*)["']/gi)];
     const candidateUrls = [...new Set(linkMatches.map(m => m[1]))].slice(0, 3);
 
@@ -145,9 +146,7 @@ async function getStreams(tmdbId, mediaType = "movie", season = null, episode = 
         const pageRes = await fetch(pageUrl, { headers: HEADERS });
         const pageHtml = await pageRes.text();
 
-        // Find embedded iframe players
         const iframes = [...pageHtml.matchAll(/<iframe[^>]+src=["'](https?:\\/\\/[^"']+)["']/gi)].map(m => m[1]);
-        // Find server data links
         const dataLinks = [...pageHtml.matchAll(/data-(?:url|link|embed)=["'](https?:\\/\\/[^"']+)["']/gi)].map(m => m[1]);
 
         const allCandidates = [...new Set([...iframes, ...dataLinks])].filter(u => !u.includes("youtube.com") && !u.includes("google.com"));
@@ -196,26 +195,8 @@ const rootManifest = {
   catalogs: [
     {
       type: "movie",
-      id: "zxr_movies",
-      name: "🎬 أفلام عربية ومترجمة (ZXR)",
-      extra: [
-        { name: "search", isRequired: false },
-        { name: "skip", isRequired: false }
-      ]
-    },
-    {
-      type: "series",
-      id: "zxr_series",
-      name: "📺 مسلسلات عربية وأجنبية (ZXR)",
-      extra: [
-        { name: "search", isRequired: false },
-        { name: "skip", isRequired: false }
-      ]
-    },
-    {
-      type: "anime",
-      id: "zxr_anime",
-      name: "🎌 أنمي وكرتون (ZXR)",
+      id: "zxr_catalog",
+      name: "🌟 ZXR Stream (المكتبة العربية الشاملة)",
       extra: [
         { name: "search", isRequired: false },
         { name: "skip", isRequired: false }

@@ -14,15 +14,14 @@ async function runTests() {
   console.log('🧪 Starting ZXR Stream test suite...\n');
 
   // 1. Manifest
-  console.log('Checking Stremio Manifest structure...');
+  console.log('Checking Stremio Manifest structure (Single Merged Catalog)...');
   const manifest = getManifest({}, 'http://localhost:7000');
   assert.strictEqual(manifest.id, 'org.zxr.stream.arabic');
   assert.strictEqual(manifest.version, '1.0.0');
   assert.strictEqual(manifest.resources.length, 2);
-  assert.strictEqual(manifest.catalogs.length, 3);
-  for (const cat of manifest.catalogs) {
-    assert.ok(cat.extra && cat.extra.some(e => e.name === 'search'), `Catalog ${cat.id} must have search extra`);
-  }
+  assert.strictEqual(manifest.catalogs.length, 1, 'Must have exactly 1 merged catalog');
+  assert.strictEqual(manifest.catalogs[0].id, 'zxr_catalog');
+  assert.ok(manifest.catalogs[0].extra && manifest.catalogs[0].extra.some(e => e.name === 'search'), 'Catalog must support search');
   console.log('✅ Stremio Manifest test passed.');
 
   // 2. Nuvio Root manifest.json
@@ -31,6 +30,7 @@ async function runTests() {
   assert.ok(fs.existsSync(rootManifestPath), 'Root manifest.json must exist');
   const rootManifest = JSON.parse(fs.readFileSync(rootManifestPath, 'utf8'));
   assert.strictEqual(rootManifest.scrapers.length, 21, 'Must contain all 21 scrapers');
+  assert.strictEqual(rootManifest.catalogs.length, 1, 'Root manifest must have 1 merged catalog');
   for (const s of rootManifest.scrapers) {
     const pPath = path.join(__dirname, '..', s.filename);
     assert.ok(fs.existsSync(pPath), `Provider file missing: ${s.filename}`);
@@ -62,8 +62,8 @@ async function runTests() {
   assert.strictEqual(ProviderManager.list.length, 21, 'Must have exactly 21 providers');
   console.log(`✅ All 21 providers verified: ${ProviderManager.list.map(p => p.id).join(', ')}`);
 
-  // 6. Real Stream Resolution Verification
-  console.log('\nChecking Real Stream Resolution for Movie (tt0111161)...');
+  // 6. Real Stream Resolution Verification for Movie (tt0111161)
+  console.log('\nChecking Real Stream Resolution for Movie (The Shawshank Redemption tt0111161)...');
   const movieMeta = await Cinemeta.getMetadata('movie', 'tt0111161');
   assert.ok(movieMeta && movieMeta.title, 'Cinemeta metadata lookup failed');
   const movieStreams = await ProviderManager.getStreams({
@@ -76,9 +76,24 @@ async function runTests() {
     genres: movieMeta.genres
   });
   assert.ok(Array.isArray(movieStreams) && movieStreams.length > 0, 'Must return at least 1 movie stream');
-  console.log(`✅ Movie stream resolved: ${movieStreams.length} stream(s), top: ${movieStreams[0].title}`);
+  const topMovie = movieStreams[0];
+  console.log(`✅ Movie stream resolved: ${movieStreams.length} stream(s)`);
+  console.log(`   NAME: ${topMovie.name}`);
+  console.log(`   TITLE: ${topMovie.title.split('\n')[0]}`);
+  console.log(`   URL: ${topMovie.url.slice(0, 80)}...`);
 
-  console.log('\nChecking Real Stream Resolution for TV Series (tt0903747:1:1)...');
+  // Verify emojis and layout
+  assert.ok(topMovie.name.includes('🎬'), 'Stream name must include 🎬');
+  assert.ok(topMovie.name.includes('🧊'), 'Stream name must include 🧊');
+  assert.ok(topMovie.name.includes('• ZXR Stream'), 'Stream name must include • ZXR Stream');
+  assert.ok(topMovie.title.includes('🍿'), 'Stream title must include 🍿');
+  assert.ok(topMovie.title.includes('🏷️'), 'Stream title must include 🏷️');
+  assert.ok(topMovie.title.includes('🎞️'), 'Stream title must include 🎞️');
+  assert.ok(topMovie.title.includes('📡'), 'Stream title must include 📡');
+  assert.ok(topMovie.url.includes('.m3u8') || topMovie.url.includes('.mp4'), 'Stream must be a direct playable media link');
+
+  // 7. Real Stream Resolution Verification for TV Series (tt0903747:1:1)
+  console.log('\nChecking Real Stream Resolution for TV Series (Breaking Bad S01E01 tt0903747:1:1)...');
   const seriesMeta = await Cinemeta.getMetadata('series', 'tt0903747:1:1');
   assert.ok(seriesMeta && seriesMeta.title, 'Cinemeta series metadata lookup failed');
   const seriesStreams = await ProviderManager.getStreams({
@@ -91,7 +106,18 @@ async function runTests() {
     genres: seriesMeta.genres
   });
   assert.ok(Array.isArray(seriesStreams) && seriesStreams.length > 0, 'Must return at least 1 series stream');
-  console.log(`✅ TV Series stream resolved: ${seriesStreams.length} stream(s), top: ${seriesStreams[0].title}`);
+  const topSeries = seriesStreams[0];
+  console.log(`✅ TV Series stream resolved: ${seriesStreams.length} stream(s)`);
+  console.log(`   NAME: ${topSeries.name}`);
+  console.log(`   TITLE: ${topSeries.title.split('\n')[0]}`);
+  console.log(`   URL: ${topSeries.url.slice(0, 80)}...`);
+
+  // Verify emojis and direct media
+  assert.ok(topSeries.name.includes('🎬'), 'Series stream name must include 🎬');
+  assert.ok(topSeries.name.includes('🧊'), 'Series stream name must include 🧊');
+  assert.ok(topSeries.name.includes('• ZXR Stream'), 'Series stream name must include • ZXR Stream');
+  assert.ok(topSeries.title.includes('🍿'), 'Series stream title must include 🍿');
+  assert.ok(topSeries.url.includes('.m3u8') || topSeries.url.includes('.mp4'), 'Series stream must be a direct playable media link');
 
   console.log('\n🎉 ALL TESTS PASSED SUCCESSFULLY! 🚀');
 }
