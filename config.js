@@ -8,17 +8,18 @@ module.exports = {
   HOST: process.env.HOST || '0.0.0.0',
   USER_AGENT: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36',
   MOBILE_UA: 'Mozilla/5.0 (Linux; Android 14; Pixel 8) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Mobile Safari/537.36',
-  REQUEST_TIMEOUT: 8000,
+  REQUEST_TIMEOUT: 12000,
   CACHE_TTL: 3600,
 
-  // All 21 Arabic Provider Active Domains
+  // All 21 Arabic Provider Active Domains (Verified from re-3arabi & live probes)
   DOMAINS: {
+    akwam: process.env.AKWAM_URL || 'https://akwam.ss',
     egydead: process.env.EGYDEAD_URL || 'https://a1.egydead.media',
     faselhd: process.env.FASELHD_URL || 'https://www.faselhd.ac',
-    witanime: process.env.WITANIME_URL || 'https://www.witanime.net',
+    witanime: process.env.WITANIME_URL || 'https://witanime.site',
     anime4up: process.env.ANIME4UP_URL || 'https://w1.anime4up.rest',
-    shahid4u: process.env.SHAHID4U_URL || 'https://sh4u.news',
-    tuktuk: process.env.TUKTUK_URL || 'https://tuktukcinemas.com',
+    shahid4u: process.env.SHAHID4U_URL || 'https://shaheed4u.im',
+    tuktuk: process.env.TUKTUK_URL || 'https://tuktukhd.com',
     cimanow: process.env.CIMANOW_URL || 'https://cimanow.cc',
     topcinema: process.env.TOPCINEMA_URL || 'https://topcinemaa.vip',
     stardima: process.env.STARDIMA_URL || 'https://www.stardima.com',
