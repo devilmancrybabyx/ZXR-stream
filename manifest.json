@@ -23,17 +23,47 @@
     {
       "type": "movie",
       "id": "zxr_movies",
-      "name": "🎬 أفلام عربية ومترجمة (ZXR)"
+      "name": "🎬 أفلام عربية ومترجمة (ZXR)",
+      "extra": [
+        {
+          "name": "search",
+          "isRequired": false
+        },
+        {
+          "name": "skip",
+          "isRequired": false
+        }
+      ]
     },
     {
       "type": "series",
       "id": "zxr_series",
-      "name": "📺 مسلسلات عربية وأجنبية (ZXR)"
+      "name": "📺 مسلسلات عربية وأجنبية (ZXR)",
+      "extra": [
+        {
+          "name": "search",
+          "isRequired": false
+        },
+        {
+          "name": "skip",
+          "isRequired": false
+        }
+      ]
     },
     {
       "type": "anime",
       "id": "zxr_anime",
-      "name": "🎌 أنمي وكرتون (ZXR)"
+      "name": "🎌 أنمي وكرتون (ZXR)",
+      "extra": [
+        {
+          "name": "search",
+          "isRequired": false
+        },
+        {
+          "name": "skip",
+          "isRequired": false
+        }
+      ]
     }
   ],
   "scrapers": [

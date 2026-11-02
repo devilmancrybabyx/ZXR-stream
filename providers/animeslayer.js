@@ -15,103 +15,81 @@ const HEADERS = {
 // P.A.C.K.E.R Decoder
 function unpackJs(source) {
   if (!source) return '';
-  const match = source.match(/}\s*\('(.*?)'\s*,\s*(\d+)\s*,\s*(\d+)\s*,\s*'(.*?)'\.split\('\|'\)/s);
-  if (!match) return source;
   try {
-    const payload = match[1].replace(/\\'/g, "'");
+    const packerPattern = /eval\(function\(p,a,c,k,e,d\)[\s\S]*?\}\('(.*)',\s*(\d+),\s*(\d+),\s*'([^']*)'\.split\('\|'\)/;
+    const match = source.match(packerPattern);
+    if (!match) return source;
+
+    let payload = match[1];
     const radix = parseInt(match[2], 10);
     const count = parseInt(match[3], 10);
     const symtab = match[4].split('|');
-    if (symtab.length !== count) return source;
-    const unbase = (val, base) => {
-      const selector = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
-      if (base <= 36) return parseInt(val, base);
+
+    function unbase(val, rad) {
+      const chars = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
       let res = 0;
       for (let i = 0; i < val.length; i++) {
-        const idx = selector.indexOf(val[i]);
-        if (idx < 0) return 0;
-        res = res * base + idx;
+        res = res * rad + chars.indexOf(val[i]);
       }
       return res;
-    };
-    return payload.replace(/\b[a-zA-Z0-9_]+\b/g, (word) => {
-      const idx = unbase(word, radix);
-      return (idx < symtab.length && symtab[idx]) ? symtab[idx] : word;
-    });
-  } catch { return source; }
-}
-
-async function getTMDBDetails(tmdbId, mediaType) {
-  try {
-    if (typeof tmdbId === 'string' && tmdbId.startsWith('tt')) {
-      const cinemetaType = mediaType === 'tv' ? 'series' : 'movie';
-      const r = await fetch(`https://v3-cinemeta.strem.io/meta/${cinemetaType}/${tmdbId}.json`);
-      const d = await r.json();
-      return { title: d.meta?.name || '', year: d.meta?.year ? parseInt(d.meta.year) : null };
     }
-    const endpoint = mediaType === "tv" ? "tv" : "movie";
-    const url = `${TMDB_BASE_URL}/${endpoint}/${tmdbId}?api_key=${TMDB_API_KEY}&append_to_response=external_ids`;
-    const response = await fetch(url, { headers: { "Accept": "application/json", "User-Agent": "Mozilla/5.0" } });
-    if (!response.ok) return { title: "", year: null };
-    const data = await response.json();
-    return {
-      title: mediaType === "tv" ? data.name : data.title,
-      year: (data.first_air_date || data.release_date || "").split("-")[0] ? parseInt((data.first_air_date || data.release_date).split("-")[0]) : null
-    };
-  } catch { return { title: "", year: null }; }
+
+    return payload.replace(/\b[0-9a-zA-Z]+\b/g, (token) => {
+      const idx = unbase(token, radix);
+      return idx < count && symtab[idx] ? symtab[idx] : token;
+    });
+  } catch {
+    return source;
+  }
 }
 
-async function extractStreamsFromUrl(url, pageReferer) {
-  const streams = [];
-  if (!url || typeof url !== 'string') return streams;
-
-  // Direct MP4 or M3U8 links
-  if (/\.(m3u8|mp4|webm)(\?|$)/i.test(url)) {
-    const qMatch = url.match(/\b(2160|1440|1080|720|480)p?\b/i);
-    const quality = qMatch ? qMatch[1] + "p" : "1080p";
-    streams.push({
-      name: `ZXR • AnimeSlayer (أنمي سلاير)`,
-      title: `AnimeSlayer (أنمي سلاير) • ${quality} • سيرفر مباشر`,
-      url: url,
-      quality: quality,
-      headers: { "User-Agent": HEADERS["User-Agent"], "Referer": pageReferer || BASE_URL },
-      provider: "animeslayer"
-    });
-    return streams;
-  }
-
-  // Embed hosts (StreamWish, Uqload, Mixdrop, Mp4Upload, VidHide)
+async function getTMDBDetails(tmdbId, mediaType = "movie") {
   try {
-    const resp = await fetch(url, { headers: { ...HEADERS, "Referer": pageReferer || BASE_URL } });
-    const html = await resp.text();
+    const url = `${TMDB_BASE_URL}/${mediaType === "series" || mediaType === "tv" ? "tv" : "movie"}/${tmdbId}?api_key=${TMDB_API_KEY}&language=ar`;
+    const res = await fetch(url);
+    const data = await res.json();
+    return {
+      title: data.title || data.name || data.original_title || data.original_name,
+      originalTitle: data.original_title || data.original_name,
+      year: data.release_date ? data.release_date.split("-")[0] : (data.first_air_date ? data.first_air_date.split("-")[0] : null)
+    };
+  } catch {
+    return { title: "", originalTitle: "", year: null };
+  }
+}
+
+async function extractStreamsFromUrl(embedUrl, referer) {
+  const streams = [];
+  try {
+    const res = await fetch(embedUrl, {
+      headers: { ...HEADERS, Referer: referer || BASE_URL }
+    });
+    const html = await res.text();
     const unpacked = unpackJs(html);
     const combined = html + "\n" + unpacked;
 
-    const m3u8Match = combined.match(/https?:\/\/[^\s"'<>]+\.m3u8[^\s"'<>]*/i);
-    if (m3u8Match) {
+    // Direct m3u8
+    const m3u8Matches = [...combined.matchAll(/https?:\/\/[^\s"'<>]+\.m3u8[^\s"'<>]*/gi)];
+    for (const m of m3u8Matches) {
       streams.push({
-        name: `ZXR • AnimeSlayer (أنمي سلاير) (HLS)`,
-        title: `AnimeSlayer (أنمي سلاير) • Auto HLS • سيرفر سريع`,
-        url: m3u8Match[0],
-        quality: "1080p",
-        headers: { "User-Agent": HEADERS["User-Agent"], "Referer": url },
-        provider: "animeslayer"
+        name: "AnimeSlayer (أنمي سلاير) (HLS)",
+        url: m[0],
+        quality: "Auto",
+        headers: { Referer: embedUrl }
       });
     }
 
-    const mp4Match = combined.match(/https?:\/\/[^\s"'<>]+\.mp4[^\s"'<>]*/i);
-    if (mp4Match) {
+    // Direct mp4
+    const mp4Matches = [...combined.matchAll(/https?:\/\/[^\s"'<>]+\.mp4[^\s"'<>]*/gi)];
+    for (const m of mp4Matches) {
       streams.push({
-        name: `ZXR • AnimeSlayer (أنمي سلاير) (MP4)`,
-        title: `AnimeSlayer (أنمي سلاير) • 720p HD`,
-        url: mp4Match[0],
-        quality: "720p",
-        headers: { "User-Agent": HEADERS["User-Agent"], "Referer": url },
-        provider: "animeslayer"
+        name: "AnimeSlayer (أنمي سلاير) (MP4)",
+        url: m[0],
+        quality: "1080p",
+        headers: { Referer: embedUrl }
       });
     }
   } catch {}
-
   return streams;
 }
 

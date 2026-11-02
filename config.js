@@ -8,20 +8,20 @@ module.exports = {
   HOST: process.env.HOST || '0.0.0.0',
   USER_AGENT: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36',
   MOBILE_UA: 'Mozilla/5.0 (Linux; Android 14; Pixel 8) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Mobile Safari/537.36',
-  REQUEST_TIMEOUT: 11000, // 11s timeout per provider
+  REQUEST_TIMEOUT: 8000,
   CACHE_TTL: 3600,
 
   // All 21 Arabic Provider Active Domains
   DOMAINS: {
-    egydead: process.env.EGYDEAD_URL || 'https://tv10.egydead.live',
-    faselhd: process.env.FASELHD_URL || 'https://www.fasel-hd.co',
+    egydead: process.env.EGYDEAD_URL || 'https://a1.egydead.media',
+    faselhd: process.env.FASELHD_URL || 'https://www.faselhd.ac',
     witanime: process.env.WITANIME_URL || 'https://witanime.com',
     anime4up: process.env.ANIME4UP_URL || 'https://w1.anime4up.rest',
     shahid4u: process.env.SHAHID4U_URL || 'https://shaahidd4u.net',
     tuktuk: process.env.TUKTUK_URL || 'https://tuktukhd.com',
     cimanow: process.env.CIMANOW_URL || 'https://cimanow.cc',
     topcinema: process.env.TOPCINEMA_URL || 'https://topcinema.film',
-    stardima: process.env.STARDIMA_URL || 'https://app.stardima.com',
+    stardima: process.env.STARDIMA_URL || 'https://www.stardima.com',
     animezid: process.env.ANIMEZID_URL || 'https://animezid.org',
     dramaworld: process.env.DRAMAWORLD_URL || 'https://test.arabypros.com',
     shooflive: process.env.SHOOFLIVE_URL || 'https://shooflive.watch',
